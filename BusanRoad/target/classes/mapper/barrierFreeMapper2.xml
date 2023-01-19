@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="barrierFree2">
+	<select id="accommodationSearch" parameterType="barrierfreeVO" resultType="barrierfreeVO">
+		select * from busan where name = #{name}
+	</select>
+	<insert id="addfree"  parameterType="barrierfreeVO">
+		insert into busan value (#{addr1}, #{mapx}, #{mapy}, #{title},#{contentid},#{firstimage})
+	</insert>
+	<insert id="addfree2"  parameterType="barrierfree2VO">
+		insert into busan value (#{contentid},#{parking},#{route},#{publictransport},#{ticketoffice},#{promotion},#{wheelchair},#{exit},#{elevator},#{restroom},#{auditorium},#{room},#{handicapetc},#{braileblock},#{helpdog},#{guidehuman},#{audioguide},#{bigprint},#{brailepromotion},#{guidesystem},#{blindhandicapetc},#{signguide},#{videoguide},#{hearingroom},#{hearinghandicapetc},#{stroller},#{lactationroom},#{babysparechair},#{infantsfamilyetc})
+	</insert>
+	<select id="toursearch" parameterType="barrierfreeVO" resultType="barrierfreeVO">
+		select * from busan where title like concat('%', #{title}, '%')
+	</select>
+	
+	
+	<select id="count" resultType="Integer">
+		select count(*) from busan
+	</select>
+	
+	<select id="list" 
+			parameterType="pageVO"
+			resultType="BarrierFreeVO"
+	>
+		select * from (
+			select
+				row_number() over(order by id desc) as bbs_no,
+				b.*
+			from bbs b) b2
+		where b2.bbs_no between #{start} and #{end}
+	</select>
+	
+	<select id = "contentid" resultType="barrierFreeVO">
+	select contentid from busan
+	</select>
+	
+	<select id="all" 
+			parameterType="pageVO"
+			resultType="BarrierFreeVO">
+		select * from (
+			select
+				row_number() over(order by id desc) as bbs_no,
+				b.*
+			from busan b) b2
+		where b2.bbs_no between #{start} and #{end}
+	</select>
+</mapper>
